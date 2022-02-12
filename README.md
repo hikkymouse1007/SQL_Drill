@@ -1,5 +1,11 @@
 # メモ
 
+## 正誤表
+
+https://gihyo.jp/book/2007/978-4-7741-3085-9/support
+
+## Postres 環境構築
+
 https://dev.classmethod.jp/articles/how-to-master-sql-tora-no-maki-1/
 
 ```shell
