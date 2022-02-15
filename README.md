@@ -92,3 +92,12 @@ testdb1=> SELECT * FROM Employees;
 '羽_生%'（「羽」のあとに任意の1文字、「生」のあとに任意の文字列）
 '___生'（3文字の文字列の後に「生」という文字があるもの、つまり4文字の文字列で末尾が生という文字があるもの）
 ```
+
+### Chapter 2 Part 14
+
+Postgres の y/m/d のキャストについて
+https://www.postgresqltutorial.com/postgresql-extract/
+
+```sql
+EXTRACT(year from Date)
+```
