@@ -1,53 +1,81 @@
--- e.g1
--- practice1
--- practice2
--- practice3
--- practice4
--- practice5
-
--- e.g1
-SELECT
-  ProductName AS 商品名
- ,Price AS 単価
-FROM
-  Products
-;
-
 -- practice1
 SELECT
-  EmployeeName AS 社員名
+C.CategoryID,
+C.CategoryName,
+SUM(A.Quantity)
 FROM
-  Employees
-;
+Sales AS A
+JOIN
+Products AS B
+ON A.ProductID = B.ProductID
+JOIN
+Categories AS C
+ON B.CategoryID = C.CategoryID
+GROUP BY
+C.CategoryID;
 
 -- practice2
 SELECT
-  CustomerCode AS 顧客コード
- ,CustomerName AS 顧客名
+SUM(A.Quantity) AS 合計数量,
+C.PrefecturalID,
+C.PrefecturalName AS 県名
 FROM
-Customers
-;
+Sales AS A
+JOIN
+Customers AS B
+ON A.CustomerID = B.CustomerID
+JOIN
+Prefecturals AS C
+ON B.PrefecturalID = C.PrefecturalID
+GROUP BY C.PrefecturalID;
 
 -- practice3
 SELECT
-  ProductCode AS 商品コード
- ,ProductName AS 商品名
- ,Price AS 価格
+MAX(A.Quantity),
+C.CustomerClassID,
+C.CustomerClassName
 FROM
-Products;
+Sales AS A
+JOIN
+Customers AS B
+ON A.CustomerID = B.CustomerID
+JOIN
+CustomerClasses AS C
+ON B.CustomerClassID = C.CustomerClassID
+GROUP BY
+C.CustomerClassID
+;
 
 -- practice4
 SELECT
-  CustomerName AS 顧客名
- ,CustomerName AS 得意先名
+SUM(A.Quantity) AS 合計数量,
+B.PrefecturalID,
+MAX( C.PrefecturalName )
 FROM
-Customers;
+Sales AS A,
+Customers AS B,
+Prefecturals AS C
+WHERE
+A.CustomerID = B.CustomerID
+AND
+B.PrefecturalID = C.PrefecturalID
+GROUP BY
+B.PrefecturalID;
+
+
 
 -- practice5
 SELECT
-  EmployeeName AS 社員名
- ,Email AS メールアドレス
- ,Email AS 連絡先
+MAX(A.Quantity),
+C.CustomerClassID,
+C.CustomerClassName
 FROM
-  Employees
-;
+Sales AS A,
+Customers AS B,
+CustomerClasses AS C
+WHERE
+A.CustomerID = B.CustomerID
+AND
+B.CustomerClassID = C.CustomerClassID
+GROUP BY
+C.CustomerClassID;
