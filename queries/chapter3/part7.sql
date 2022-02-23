@@ -1,38 +1,110 @@
 -- e.g1
 SELECT
-AVG(Price) AS　平均単価
+CustomerName AS 氏名
 FROM
-Products
-;
+Customers
+UNION ALL
+SELECT
+EmployeeName AS 氏名
+FROM
+Employees;
 
 -- practice1
 SELECT
-COUNT(CustomerID) AS お得意様数
+DepartmentID AS ID,
+DepartmentName AS 名前
 FROM
-Customers;
+Departments
+UNION ALL
+SELECT
+CategoryID AS ID,
+CategoryName AS 名前
+FROM
+Categories;
+
 
 -- practice2
 SELECT
-SUM(Weight) AS 社員体重合計
+'Departments' AS テーブル名, -- 各レコードに定数を表示する
+DepartmentID AS ID,
+DepartmentName AS 名前
 FROM
-Employees;
-
--- practice3
+Departments
+UNION ALL
 SELECT
-MAX(Price) AS 最高額価格
+'Categories' AS テーブル名,
+CategoryID AS ID,
+CategoryName AS 名前
 FROM
-Products;
+Categories
+ORDER BY
+テーブル名,
+ID;
 
-
--- practice4
+-- practice3, practice4
 SELECT
-MIN(Weight) AS 最軽量体重
+'Departments' AS テーブル名, -- 各レコードに定数を表示する
+DepartmentID AS ID,
+DepartmentName AS 名前
 FROM
-Employees;
+Departments
+UNION ALL
+SELECT
+'CustomerClasses' AS テーブル名, -- 各レコードに定数を表示する
+CustomerClassID AS ID,
+CustomerClassName AS 名前
+FROM
+CustomerClasses
+UNION ALL
+SELECT
+'Categories' AS テーブル名,
+CategoryID AS ID,
+CategoryName AS 名前
+FROM
+Categories
+UNION ALL
+SELECT
+'Prefecturals' AS テーブル名,
+PrefecturalID AS ID,
+PrefecturalName AS 名前
+FROM
+Prefecturals
+ORDER BY
+テーブル名,
+ID;
 
 -- practice5
 SELECT
-  AVG(Height) AS 平均身長
- ,AVG(Weight) AS 平均体重
+A.SaleID,
+A.ProductID,
+A.Quantity,
+B.CustomerClassID,
+B.CustomerName
 FROM
-  Employees;
+Sales AS A
+JOIN
+Customers AS B
+ON
+A.CustomerID = B.CustomerID
+WHERE
+A.Quantity >= 10
+AND
+B.CustomerClassID = 2
+UNION ALL
+SELECT
+A.SaleID,
+A.ProductID,
+A.Quantity,
+B.CustomerClassID,
+B.CustomerName
+FROM
+Sales AS A
+JOIN
+Customers AS B
+ON
+A.CustomerID = B.CustomerID
+WHERE
+A.Quantity >= 100
+AND
+B.CustomerClassID = 1;
+
