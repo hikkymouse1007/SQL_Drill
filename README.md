@@ -101,3 +101,39 @@ https://www.postgresqltutorial.com/postgresql-extract/
 ```sql
 EXTRACT(year from Date)
 ```
+
+### SQL のパフォーマンス
+
+```sql
+testdb1=> explain SELECT
+ProductID,
+ProductName
+FROM
+Products AS A
+WHERE
+ EXISTS
+ (
+   SELECT
+   ProductID
+   FROM
+   Sales AS B
+   WHERE
+   A.ProductID = B.ProductID
+ )
+ORDER BY ProductID
+;
+                                             QUERY PLAN
+----------------------------------------------------------------------------------------------------
+ Sort  (cost=26.95..27.07 rows=48 width=222)
+   Sort Key: a.productid
+   ->  Nested Loop  (cost=20.66..25.61 rows=48 width=222)
+         ->  HashAggregate  (cost=20.50..20.98 rows=48 width=4)
+               Group Key: b.productid
+               ->  Seq Scan on sales b  (cost=0.00..18.00 rows=1000 width=4)
+         ->  Memoize  (cost=0.16..1.18 rows=1 width=222)
+               Cache Key: b.productid
+               Cache Mode: logical
+               ->  Index Scan using products_pkey on products a  (cost=0.15..1.17 rows=1 width=222)
+                     Index Cond: (productid = b.productid)
+(11 rows)
+```
