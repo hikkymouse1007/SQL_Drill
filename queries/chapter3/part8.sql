@@ -1,56 +1,68 @@
 -- e.g1
 SELECT
-CustomerName AS 氏名
+  e.EmployeeName AS 氏名,
+  s.SaleDate AS 日付
 FROM
-Customers
-UNION
+  Sales AS s
+JOIN
+  Employees AS e
+ON
+  s.EmployeeID = e.EmployeeID;
+INTERSECT
 SELECT
-EmployeeName AS 氏名
+  e.EmployeeName AS 氏名,
+  s.SaleDate AS 日付
 FROM
-Employees
+  Salary AS s
+JOIN
+  Employees AS e
+ON
+  s.EmployeeID = e.EmployeeID
 ;
 
 -- practice1
 SELECT
-CustomerID AS ID,
-CustomerName AS 名前
+  CustomerID AS ID,
+  CustomerName AS 名前
 FROM
-Customers
-UNION
+  Customers
+INTERSECT
 SELECT
-EmployeeID AS ID,
-EmployeeName AS 名前
+  EmployeeID AS ID,
+  EmployeeName AS 名前
 FROM
-Employees
+  Employees
 ORDER BY
-ID
+  ID
 ;
 
 -- practice2
 SELECT
-EmployeeID AS ID,
-EmployeeName AS 名前
+  EmployeeID AS ID,
+  EmployeeName AS 氏名
 FROM
-Employees
-UNION
+  Employees
+INTERSECT
 SELECT
-EmployeeID AS ID,
-EmployeeName AS 名前
+  EmployeeID AS ID,
+  EmployeeName AS 氏名
 FROM
-Employees;
+  Employees
+ORDER BY
+ID;
 
 -- practice3
 SELECT
-ProductID
+ProductID AS ID
 FROM
 Products
-UNION
+INTERSECT
 SELECT
-ProductID
+ProductID AS ID
 FROM
 Sales
 ORDER BY
-ProductID;
+ID;
 
 -- practice4
 SELECT
@@ -59,52 +71,43 @@ ProductID
 FROM
 Sales
 WHERE
-  SaleDate BETWEEN '2006-10-01' AND '2006-12-31'
+SaleDate BETWEEN '2006-12-31' AND '2007-03-31'
   AND Quantity >= 10
-UNION
+INTERSECT
 SELECT
 CustomerID,
 ProductID
 FROM
 Sales
 WHERE
-  SaleDate BETWEEN '2007-01-01' AND '2007-03-31'
-  AND Quantity >= 10
-UNION
-SELECT
-CustomerID,
-ProductID
-FROM
-Sales
-WHERE
-  SaleDate BETWEEN '2007-04-01' AND '2007-06-30'
-  AND Quantity >= 10
-ORDER BY
-CustomerID,
-ProductID
-;
+SaleDate BETWEEN '2007-04-01' AND '2007-06-30'
+  AND Quantity >= 10;
 
 -- practice5
 SELECT
-  ProductID
+ProductID
 FROM
-  Sales AS A
+Sales AS s
 JOIN
-  Customers AS B
+Customers AS c
 ON
-  A.CustomerID = B.CustomerID
+s.CustomerID = c.CustomerID
 WHERE
-  B.CustomerClassID = 2 AND A.Quantity >= 10
-UNION
+c.CustomerClassID = 2
+  AND s.Quantity >= 10
+INTERSECT
 SELECT
-  ProductID
+ProductID
 FROM
-  Sales AS A
+Sales AS s
 JOIN
-  Customers AS B
+Customers AS c
 ON
-  A.CustomerID = B.CustomerID
+s.CustomerID = c.CustomerID
 WHERE
-  B.CustomerClassID = 1 AND A.Quantity >= 100
+c.CustomerClassID = 1
+  AND s.Quantity >= 100
 ORDER BY
-ProductID;
+ProductID
+;
+
