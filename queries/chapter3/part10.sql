@@ -1,63 +1,115 @@
 -- e.g1
 SELECT
-ProductName AS 商品名,
-CASE
-  WHEN Price < 1000 THEN 'C'
-  WHEN Price < 2000 THEN 'B'
-  ELSE 'A'
-END AS ランク
+EmployeeName
 FROM
-Products;
+Employees
+EXCEPT
+SELECT
+e.EmployeeName
+FROM
+Sales AS s
+JOIN
+Employees AS e
+ON
+s.EmployeeID = e.EmployeeID
+;
 
 -- practice1
 SELECT
-EmployeeName AS 社員名,
-CASE
-  WHEN Height < 160 THEN 'A'
-  WHEN Height < 170 THEN 'B'
-  WHEN Height < 180 THEN 'C'
-  ELSE 'D'
-END AS ランク
+CustomerID AS ID,
+CustomerName AS 名前
+FROM
+Customers
+EXCEPT
+SELECT
+EmployeeID AS ID,
+EmployeeName AS 名前
 FROM
 Employees
-;
+ORDER BY ID;
 
 -- practice2
 SELECT
-SalaryID,
-Amount,
-CASE
-  WHEN Amount < 150000 THEN 'D'
-  WHEN Amount < 300000 THEN 'C'
-  WHEN Amount < 500000 THEN 'B'
-  ELSE 'A'
-END AS ランク
+EmployeeID AS ID,
+EmployeeName AS 名前
 FROM
-Salary
+Employees
+EXCEPT
+SELECT
+EmployeeID AS ID,
+EmployeeName AS 名前
+FROM
+Employees
+ORDER BY
+ID
 ;
 
 -- practice3
 SELECT
-EmployeeName,
-CASE
-  WHEN Weight < 60 THEN 'A'
-  WHEN Weight < 70 THEN 'B'
-  WHEN Weight < 80 THEN 'C'
-  ELSE 'D'
-END AS ランク
+ProductID AS ID
 FROM
-Employees
+Products
+EXCEPT
+SELECT
+ProductID AS ID
+FROM
+Sales
+ORDER BY
+ID
 ;
 
 -- practice4
 SELECT
-CASE
-  WHEN Quantity > 10 THEN 'A'
-  ELSE 'B'
-END AS ランク
+s.ProductID
 FROM
-Sales
-;
+Sales AS s
+JOIN
+Customers as c
+ON
+s.CustomerID = c.CustomerID
+WHERE
+c.CustomerClassID = 1
+  AND s.Quantity >= 100
+EXCEPT
+SELECT
+s.ProductID
+FROM
+Sales AS s
+JOIN
+Customers as c
+ON
+s.CustomerID = c.CustomerID
+WHERE
+c.CustomerClassID = 2
+  AND s.Quantity >= 10
+ORDER BY ProductID;
+
+-- practice5
+SELECT
+s.ProductID
+FROM
+Sales AS s
+JOIN
+Customers as c
+ON
+s.CustomerID = c.CustomerID
+WHERE
+c.CustomerClassID = 2
+  AND s.Quantity >= 10
+EXCEPT
+SELECT
+s.ProductID
+FROM
+Sales AS s
+JOIN
+Customers as c
+ON
+s.CustomerID = c.CustomerID
+WHERE
+c.CustomerClassID = 1
+  AND s.Quantity >= 100
+ORDER BY ProductID;
+
 
 -- practice5
 SELECT
