@@ -91,57 +91,45 @@ BloodType = 'O'
 ;
 
 -- practice4
-SELECT
-Quantity,
+INSERT
+INTO Sales
 (
-  SELECT
-  CustomerName
-  FROM
-  Customers AS B
-  WHERE
-  A.CustomerID = B.CustomerID
-),
-(
-  SELECT
-  ProductName
-  FROM
-  Products AS C
-  WHERE
-  A.ProductID =C.ProductID
-),
-(
-  SELECT
-  EmployeeName
-  FROM
-  Employees AS D
-  WHERE
-  A.EmployeeID = D.EmployeeID
+  SaleID,
+  Quantity,
+  EmployeeID,
+  ProductID,
+  SaleDate
 )
+SELECT
+CustomerID + 40000,
+20,
+5,
+21,
+'2007-09-05'
 FROM
-Sales AS A
+Customers
 WHERE
-A.Quantity >= 200;
+PrefecturalID = 8
+;
+
 
 -- practice5
-SELECT
-CustomerName,
+INSERT
+INTO Sales
 (
-  SELECT
-  PrefecturalName
-  FROM 
-  Prefecturals AS B
-  WHERE
-  A.PrefecturalID = B.PrefecturalID
-),
-(
-  SELECT
-  CustomerClassName
-  FROM
-  CustomerClasses AS C
-  WHERE
-  A.CustomerClassID = C.CustomerClassID
+  SaleID,
+  Quantity,
+  CustomerID,
+  EmployeeID,
+  SaleDate
 )
+SELECT
+ProductID + 50000,
+30,
+15,
+2,
+'2007-09-10'
 FROM
-Customers AS A
-ORDER BY
-A.PrefecturalID;
+Products
+WHERE
+CategoryID = 5;
