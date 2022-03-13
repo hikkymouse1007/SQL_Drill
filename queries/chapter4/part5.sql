@@ -1,83 +1,121 @@
 -- e.g1
-SELECT
-  p.ProductName,
-  s1.SaleDate
-FROM
-  Sales AS s1
-JOIN
-  Products AS p
-  ON s1.ProductID = p.ProductID
+UPDATE
+  Products
+SET
+  Price = Price*1.01
 WHERE
-  s1.Quantity > (
+  ProductID IN
+  (
     SELECT
-      AVG(Quantity)
+      ProductID
     FROM
-      Sales AS s2
-    WHERE
-      s1.ProductID = s2.ProductID
+      Sales
+    GROUP BY
+      ProductID
+    HAVING
+      SUM(Quantity) > 100
   )
-ORDER BY p.ProductID, s1.SaleDate
-Desc
 ;
 
 
 
 -- practice1
-SELECT
-p1.ProductName AS 商品名1,
-p2.ProductName AS 商品名2
-FROM
-Products AS p1
-JOIN
-Products AS p2
-ON p1.ProductID < p2.ProductID
-AND p1.CategoryID = p2.CategoryID
+UPDATE
+  Products
+SET
+  Price = Price * 0.97
+WHERE
+  ProductID NOT IN
+  (
+    SELECT
+      ProductID
+    FROM
+      Sales
+  )
 ;
 
 
 -- practice2
-SELECT
-c1.CustomerName AS 顧客名1,
-c2.CustomerName AS 顧客名2
-FROM
-Customers AS c1
-JOIN
-Customers AS c2
-ON c1.CustomerID < c2.CustomerID
-AND c1.PrefecturalID = c2.PrefecturalID
-AND c1.CustomerClassID = c2.CustomerClassID;
+UPDATE
+  Salary
+SET
+  Amount = Amount * 0.95
+WHERE
+  PayDate = '2007-10-01'
+  AND
+  EmployeeID IN
+  (
+    SELECT
+      EmployeeID
+    FROM
+      Sales
+    GROUP BY
+      EmployeeID
+    HAVING
+      COUNT( * ) < 10
+  )
+;
 
 -- practice3
-SELECT
-e1.EmployeeName AS　従業員名1,
-e2.EmployeeName AS　従業員名2
-FROM
-Employees AS e1
-JOIN
-Employees AS e2
-ON e1.Birthday > e2.Birthday;
+UPDATE
+  Salary
+SET
+  Amount = Amount * 1.1
+WHERE
+  PayDate = '2007-10-01'
+  AND
+  EmployeeID IN
+  (
+    SELECT
+      EmployeeID
+    FROM
+      Sales
+    GROUP BY
+      EmployeeID
+    HAVING
+      COUNT( * ) > 50
+  )
+;
 
 -- practice4
-SELECT
-c1.CategoryName AS カテゴリー1,
-c2.CategoryName AS カテゴリー2
-FROM
-Categories AS c1
-JOIN
-Categories AS c2
-ON
-c1.CategoryID < c2.CategoryID;
+UPDATE
+  Salary
+SET
+  Amount = Amount * 0.9
+WHERE
+  PayDate = '2007-10-01'
+  AND
+  EmployeeID NOT IN
+  (
+    SELECT
+      EmployeeID
+    FROM
+      Sales
+    WHERE
+      SaleDate < '2007-08-25'
+  )
+;
 
 -- practice5
-SELECT
-c1.CustomerName AS 顧客名1,
-c2.CustomerName AS 顧客名2
-FROM
-Customers AS c1
-JOIN
-Customers AS c2
-ON c1.CustomerID < c2.CustomerID
-AND c1.PrefecturalID = c2.PrefecturalID
-AND c1.CustomerClassID = c2.CustomerClassID
+UPDATE
+  Salary
+SET
+  Amount = Amount * 1.1
 WHERE
-c1.PrefecturalID <> 13;
+  PayDate = '2007-08-25'
+  AND
+  EmployeeID IN
+  (
+    SELECT
+      EmployeeID
+    FROM
+      Sales AS A
+    JOIN
+      Customers AS B
+      ON A.CustomerID = B.CustomerID
+    WHERE
+      A.SaleDate < '2007-08-25'
+      AND
+        B.CustomerClassID = 1
+  )
+;

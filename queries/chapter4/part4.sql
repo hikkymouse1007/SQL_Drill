@@ -60,4 +60,3 @@ WHERE
   CategoryID = 7
   AND Price >= 1000
 ;
-
