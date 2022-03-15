@@ -1,113 +1,51 @@
 -- e.g1
-SELECT
-  e.EmployeeName AS 氏名,
-  s.SaleDate AS 日付
+DELETE
 FROM
-  Sales AS s
-JOIN
-  Employees AS e
-ON
-  s.EmployeeID = e.EmployeeID;
-INTERSECT
-SELECT
-  e.EmployeeName AS 氏名,
-  s.SaleDate AS 日付
-FROM
-  Salary AS s
-JOIN
-  Employees AS e
-ON
-  s.EmployeeID = e.EmployeeID
+  Employees
+WHERE
+  EmployeeID = 17
 ;
 
 -- practice1
-SELECT
-  CustomerID AS ID,
-  CustomerName AS 名前
+DELETE
 FROM
-  Customers
-INTERSECT
-SELECT
-  EmployeeID AS ID,
-  EmployeeName AS 名前
-FROM
-  Employees
-ORDER BY
-  ID
+Sales
+WHERE
+SaleID = 1006
 ;
 
 -- practice2
-SELECT
-  EmployeeID AS ID,
-  EmployeeName AS 氏名
+DELETE
+*
 FROM
-  Employees
-INTERSECT
-SELECT
-  EmployeeID AS ID,
-  EmployeeName AS 氏名
-FROM
-  Employees
-ORDER BY
-ID;
-
+  Salary
+WHERE
+  EmployeeID = 10
+  AND
+  PayDate = '2007-10-01'
+;
 -- practice3
-SELECT
-ProductID AS ID
+DELETE
 FROM
-Products
-INTERSECT
-SELECT
-ProductID AS ID
-FROM
-Sales
-ORDER BY
-ID;
-
--- practice4
-SELECT
-CustomerID,
-ProductID
-FROM
-Sales
+  Customers
 WHERE
-SaleDate BETWEEN '2006-12-31' AND '2007-03-31'
-  AND Quantity >= 10
-INTERSECT
-SELECT
-CustomerID,
-ProductID
-FROM
-Sales
-WHERE
-SaleDate BETWEEN '2007-04-01' AND '2007-06-30'
-  AND Quantity >= 10;
-
--- practice5
-SELECT
-ProductID
-FROM
-Sales AS s
-JOIN
-Customers AS c
-ON
-s.CustomerID = c.CustomerID
-WHERE
-c.CustomerClassID = 2
-  AND s.Quantity >= 10
-INTERSECT
-SELECT
-ProductID
-FROM
-Sales AS s
-JOIN
-Customers AS c
-ON
-s.CustomerID = c.CustomerID
-WHERE
-c.CustomerClassID = 1
-  AND s.Quantity >= 100
-ORDER BY
-ProductID
+  CustomerID >= 10000
 ;
 
+-- practice4
+DELETE
+FROM
+Products
+WHERE
+CategoryID = 1;
+
+-- practice5
+DELETE
+FROM
+Customers
+WHERE
+CustomerClassID = 2
+AND
+PrefecturalId
+IN (3, 5, 7, 13)
+;
