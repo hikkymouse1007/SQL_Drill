@@ -1,48 +1,93 @@
 -- e.g1
-SELECT
-COUNT(*) AS 子のつく社員の人数
+DELETE
 FROM
-Employees
+  Products
 WHERE
-EmployeeName LIKE '%子'
+  ProductID NOT IN
+  (
+    SELECT
+      ProductID
+    FROM
+      Sales
+  )
 ;
 
 -- practice1
-SELECT
-CustomerName AS 会社名
+DELETE
 FROM
-Customers
+  Salary
 WHERE
-CustomerName LIKE '%株式会社%';
+  EmployeeID  NOT IN
+  (
+  SELECT
+    EmployeeID
+  FROM
+    Sales
+  )
+;
 
 -- practice2
-SELECT
-AVG(Height) AS 平均身長
+DELETE
 FROM
-Employees
-WHERE EmployeeName LIKE '%ー%';
+Products
+WHERE ProductID NOT IN
+(
+  SELECT
+    ProductID
+  FROM
+    Sales
+  GROUP BY
+    ProductID
+  HAVING
+    SUM(Quantity) >= 20
+)
+;
 
 -- practice3
-SELECT
-COUNT(*)
+DELETE
 FROM
-Customers
+  Customers
 WHERE
-CustomerName NOT LIKE '%株式会社%';
+  CustomerID NOT IN
+  (
+    SELECT
+      CustomerID
+    FROM
+      Sales
+  )
+;
 
 -- practice4
-SELECT
-EmployeeName,
-Height
+DELETE
 FROM
 Employees
-WHERE 
-EmployeeName LIKE '%リ%' AND Height <= 160;
+WHERE
+EmployeeID NOT IN
+(
+  SELECT
+  EmployeeID
+  FROM
+  Sales
+  GROUP BY
+  EmployeeID
+  HAVING
+    COUNT(*) > 5
+);
 
 -- practice5
-SELECT
-*
+DELETE
 FROM
-Customers
+Sales
 WHERE
-CustomerName NOT LIKE '%株式会社%' AND Address LIKE '%江戸川区%';
+EmployeeID IN
+(
+  SELECT
+  EmployeeID
+  FROM
+  BelongTo
+  WHERE
+  EndDate IS NULL
+  AND
+  DepartmentID = 3
+)
+;
